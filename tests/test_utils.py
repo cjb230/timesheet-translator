@@ -1,5 +1,3 @@
-# from ..timesheet_translator import utils as u
-
 import timesheet_translator.utils as u
 
 

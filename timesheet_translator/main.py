@@ -1,21 +1,21 @@
+from pprint import pprint
+
 from . import utils as u
 
 
 def main():
-    # print("Hello")
     df = u.tab_data(
         file="/Users/cjb/repos/timesheet_translator/timesheet_translator/timesheet_w26_20230626.xlsx"
     )
-    df = u.transform_df(df)
-    print(df)
+    print(f"Read {df.shape[0]} rows of data.")
 
-    agg_df = (
-        df.groupby(["date", "task group", "task"])
-        .agg({"hours": "sum", "description": lambda x: ",\n".join(set(x))})
-        .reset_index()
-    )
+    df = u.clean_df(df)
+    df = u.remove_unbillable(df)
+    u.print_summary(df)
+    agg_df = u.aggregate(df)
+
     agg_df["hours"] = agg_df["hours"].apply(u.hours_to_string)
-    print(agg_df.to_dict("records"))
+    pprint(agg_df.to_dict("records")[0:2])
 
 
 if __name__ == "__main__":
