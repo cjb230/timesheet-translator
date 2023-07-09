@@ -1,4 +1,4 @@
-import utils as u
+from . import utils as u
 
 
 def main():

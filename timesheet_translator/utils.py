@@ -1,6 +1,7 @@
+# import config as c
 import pandas as pd
 
-from timesheet_translator import config as c
+from . import config as c
 
 
 def tab_data(file: str = c.FILE_NAME, tab: str = c.TAB_NAME) -> pd.DataFrame:
