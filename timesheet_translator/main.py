@@ -1,12 +1,16 @@
+import warnings
 from pprint import pprint
 
 from . import utils as u
 
 
 def main():
-    df = u.tab_data(
-        file="/Users/cjb/repos/timesheet_translator/timesheet_translator/timesheet_w26_20230626.xlsx"
-    )
+    print()
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning)
+        df = u.tab_data(
+            file="/Users/cjb/repos/timesheet_translator/timesheet_translator/timesheet_w26_20230626.xlsx"
+        )
     print(f"Read {df.shape[0]} rows of data.")
 
     df = u.clean_df(df)

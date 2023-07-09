@@ -8,6 +8,7 @@ def tab_data(file: str = c.FILE_NAME, tab: str = c.TAB_NAME) -> pd.DataFrame:
 
     Also sanity checks the sum of hours vs the sum reported in the tab."""
     result_df = pd.read_excel(file, tab, usecols="C,D,F,G,K,Q", header=None)
+    print(f"Opened file: {file}")
     sanity_total = result_df.iloc[0, 1]  # D1 in the original tab
     result_df.drop(result_df.index[:4], inplace=True)
     second_column_label = result_df.columns[1]
@@ -118,10 +119,10 @@ def remove_unbillable(df: pd.DataFrame) -> pd.DataFrame:
 def print_summary(df: pd.DataFrame) -> None:
     """Print totals by day and task group."""
     day_agg_df = df.groupby(["date"]).agg({"hours": "sum"})
-    print("Aggs by day:")
+    print("By day:")
     print(day_agg_df)
     print()
     task_group_agg_df = df.groupby(["task group"]).agg({"hours": "sum"})
-    print("Aggs by task group:")
+    print("By task group:")
     print(task_group_agg_df)
     print()
