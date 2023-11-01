@@ -7,13 +7,13 @@ def tab_data(file: str = c.FILE_NAME, tab: str = c.TAB_NAME) -> pd.DataFrame:
     """Reads in a tab from an Excel file and returns it as a DataFrame.
 
     Also sanity checks the sum of hours vs the sum reported in the tab."""
-    result_df = pd.read_excel(file, tab, usecols="C,D,F,G,K,Q", header=None)
+    result_df = pd.read_excel(file, tab, usecols="C,D,F,G,I,K", header=None)
     print(f"Opened file: {file}")
     sanity_total = result_df.iloc[0, 1]  # D1 in the original tab
     result_df.drop(result_df.index[:4], inplace=True)
     second_column_label = result_df.columns[1]
     result_df.drop(second_column_label, axis=1, inplace=True)
-    # result_df now has columns C, F, G, K, Q, and starts at row 5
+    # result_df now has columns C, F, G, I, K, and starts at row 5
     result_df.columns = ["date", "hours", "description", "task", "task group"]
 
     row_total_hours = result_df["hours"].sum()
@@ -45,6 +45,7 @@ def clean_df(df: pd.DataFrame) -> pd.DataFrame:
 
     # Complete lines only
     start_lines = df.shape[0]
+    print(df)
     df = df.dropna()
     post_drop_na_lines = df.shape[0]
     print(f"Removed {start_lines - post_drop_na_lines} line(s) with missing data.")
@@ -65,7 +66,7 @@ def clean_df(df: pd.DataFrame) -> pd.DataFrame:
         )
 
     # Zero-hours lines are included in source file to regularise pivot table shapes.
-    # They serve no value here.
+    # They have no value here.
     df = df[df["hours"] != 0]
     post_drop_zero_time_lines = df.shape[0]
     print(
@@ -126,3 +127,8 @@ def print_summary(df: pd.DataFrame) -> None:
     print("By task group:")
     print(task_group_agg_df)
     print()
+
+
+def reassign_rebillable(df: pd.DataFrame) -> pd.DataFrame:
+    """"""
+    return df
